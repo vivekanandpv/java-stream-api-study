@@ -8,11 +8,11 @@ public class Main {
     public static void main(String[] args) {
         List<String> cities = List.of("Ratnagiri", "Dharwad", "Haveri", "Bidar");
 
-        //  limit is a non-terminal operator that applies
+        //  skip is a non-terminal operator that applies
         //  filtration with remembrance
 
         cities.stream()
-                .limit(2)   //only Ratnagiri and Dharwad
+                .skip(2)   //only Haveri and Bidar
                 .forEach(System.out::println);
     }
 }
