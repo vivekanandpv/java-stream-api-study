@@ -1,21 +1,19 @@
 package in.athenaeum;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class Main {
 
     public static void main(String[] args) {
-        List<Integer> numbers = List.of(8, 2, 4, 5, 3, 2, 1, 7, 8);
+        List<String> names = List.of("Raman", "Einstein", "Rutherford", "Heisenberg", "Bohr");
 
-        //  peek is a non-terminal operator used for side-effects
-        //  It doesn't alter the stream
-
-        long count = numbers.stream()
-                .peek(i -> System.out.println(i + "^3 = " + i * i * i))
-                .distinct()
-                .count();
-        System.out.println("-----------------------");
-        System.out.println(count);
+        //  flatMap applies map to inner collection
+        //  it's a map that returns another stream explicitly
+        //  Arrays.stream() is a convenience method
+        names.stream()
+                .flatMap(name -> Arrays.stream(name.split("[aeiou]")))
+                .forEach(System.out::println);
     }
 }
