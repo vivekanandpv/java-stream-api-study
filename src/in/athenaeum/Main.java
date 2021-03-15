@@ -8,18 +8,14 @@ public class Main {
     public static void main(String[] args) {
         List<Integer> numbers = List.of(8, 2, 4, 5, 3, 2, 1, 7, 8);
 
-        //  takeWhile is like filter, but stops the pipeline as soon as
-        //  the non-match is found (while filter continues to look for
-        //  other elements)
+        //  peek is a non-terminal operator used for side-effects
+        //  It doesn't alter the stream
 
-        numbers.stream()
-                .takeWhile(n -> n % 2 == 0) //stops the stream at first non-match
-                .forEach(System.out::println);  //8,2,4
-
-        System.out.println("---------------------------");
-
-        numbers.stream()
-                .filter(n -> n % 2 == 0) //skips non matching elements
-                .forEach(System.out::println);  //8,2,4,2,8
+        long count = numbers.stream()
+                .peek(i -> System.out.println(i + "^3 = " + i * i * i))
+                .distinct()
+                .count();
+        System.out.println("-----------------------");
+        System.out.println(count);
     }
 }
