@@ -5,14 +5,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        List<String> cities = List.of("Mumbai", "Chennai", "Mysuru");
+        List<String> cities = List.of("Mumbai", "mumbai", "Mysuru");
 
-        //  count is a terminal operator that produces a long result
-        long result =
-                cities.stream()
-                        .filter(s -> s.length() > 6)
-                        .count();   //=1
-
-        System.out.println(result);
+        //  distinct is a non-terminal operator
+        //  that applies filtration (remembers the processed items)
+        cities.stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .forEach(System.out::println);
     }
 }
