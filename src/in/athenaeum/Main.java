@@ -1,11 +1,9 @@
 package in.athenaeum;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
 
@@ -18,37 +16,34 @@ public class Main {
                         new ComplexNumber(2, 2)
                 );
 
-        //  Collector is a state machine that builds a collection
-        //  such as List, Set, Map, etc from a stream
+        //  toMap requires a key extractor and a value extractor
+        Map<Integer, ComplexNumber> mapDump =
+                IntStream.range(0, complexNumbers.size())
+                .mapToObj(i -> new IndexedComplexNumber(i, complexNumbers.get(i)))  // map returns IntStream, hence mapToObj
+                .collect(
+                        Collectors.toMap(
+                                IndexedComplexNumber::getIndex,
+                                IndexedComplexNumber::getComplexNumber
+                        )
+                );
+    }
+}
 
-        List<Double> realParts =
-                complexNumbers.stream()
-                        .map(ComplexNumber::getReal)
-                        .collect(Collectors.toList());
+class IndexedComplexNumber {
+    private final int index;
+    private final ComplexNumber complexNumber;
 
-        Set<Double> imaginaryParts =
-                complexNumbers.stream()
-                        .map(ComplexNumber::getImaginary)
-                        .collect(Collectors.toSet());
+    public IndexedComplexNumber(int index, ComplexNumber complexNumber) {
+        this.index = index;
+        this.complexNumber = complexNumber;
+    }
 
-        //  Collecting to a comma-separated string
-        //  Works only with Stream<String>
-        String realPartsAsString =
-                complexNumbers.stream()
-                        .map(ComplexNumber::getReal)
-                        .map(String::valueOf)
-                        .collect(Collectors.joining(","));
+    public int getIndex() {
+        return index;
+    }
 
-        //  Collecting to primitive array
-        double[] realPartsAsArrayFromDoubleStream =
-                complexNumbers.stream()
-                        .mapToDouble(ComplexNumber::getReal)    //  creates a double stream (primitive, efficient)
-                        .toArray();
-
-        //  Collecting to T[]
-        Double[] realPartsAsArrayFromNormalStream = complexNumbers.stream()
-                .map(ComplexNumber::getReal)    //  normal stream (autoboxing type)
-                .toArray(Double[]::new);
+    public ComplexNumber getComplexNumber() {
+        return complexNumber;
     }
 }
 
