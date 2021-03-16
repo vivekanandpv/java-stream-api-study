@@ -7,18 +7,29 @@ import java.util.Optional;
 public class Main {
 
     public static void main(String[] args) {
-        List<ComplexNumber> complexNumbers = List.of();
+        List<ComplexNumber> complexNumbers =
+                List.of(
+                        new ComplexNumber(1, 1),
+                        new ComplexNumber(2, 1),
+                        new ComplexNumber(3, 2),
+                        new ComplexNumber(2, 2)
+                );
 
-        //  When there are no elements, the result is not defined
-        //  Mathematically speaking, we need an identity element
-        //  for out reduction action. Optional<T> is introduced in
-        //  Java 8 precisely for this reason.
+        //  In this reducer variant, we provide an identity element
+        //  When there are no elements, operation short-circuits to
+        //  identity element provided.
+        //  For only one element in the stream, c1 will be identity
+        //  c2 will be the first element of the stream. Reducer runs only
+        //  once.
+        //  For 2 or more elements in stream, accumulator starts from identity
+        //  and progresses.
 
-        //  As such, there is nothing to reduce. Short-circuited.
-        //  In this case, result will be Optional.empty
+        //  As the identity is provided, the result is assured to be
+        //  of type T (ComplexNumber in this case).
 
-        Optional<ComplexNumber> resultOptional = complexNumbers.stream()
+        ComplexNumber result = complexNumbers.stream()
                 .reduce(
+                        new ComplexNumber(0, 0),
                         (c1, c2) -> {
                             System.out.println("Reducer runs with " + c1 + " and " + c2);
                             return new ComplexNumber(
@@ -28,7 +39,7 @@ public class Main {
                         }
                 );
 
-        System.out.println(resultOptional);
+        System.out.println(result);
     }
 }
 
