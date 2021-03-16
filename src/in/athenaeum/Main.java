@@ -7,15 +7,15 @@ import java.util.Optional;
 public class Main {
 
     public static void main(String[] args) {
-        List<ComplexNumber> complexNumbers =
-                List.of(
-                        new ComplexNumber(1, 1)
-                );
+        List<ComplexNumber> complexNumbers = List.of();
 
-        //  When there is only one element in the stream
-        //  that element is the result of the reduction
-        //  Processing is short-circuited. Reducer doesn't run
-        //  but the result is produced.
+        //  When there are no elements, the result is not defined
+        //  Mathematically speaking, we need an identity element
+        //  for out reduction action. Optional<T> is introduced in
+        //  Java 8 precisely for this reason.
+
+        //  As such, there is nothing to reduce. Short-circuited.
+        //  In this case, result will be Optional.empty
 
         Optional<ComplexNumber> resultOptional = complexNumbers.stream()
                 .reduce(
