@@ -7,6 +7,10 @@ import java.util.stream.IntStream;
 
 public class Main {
 
+    //  Create a list of users with their roles (as Set<String>)
+    //  collect the result to a map where the key is username and value is roles as set
+    //  e.g., Map<String, Set<String>>
+
     public static void main(String[] args) {
         List<User> userList = List.of(
                 new User("vivek", Set.of("admin", "manager")),
