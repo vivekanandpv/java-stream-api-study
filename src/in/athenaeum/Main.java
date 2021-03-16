@@ -24,6 +24,10 @@ public class Main {
         //  For 2 or more elements in stream, accumulator starts from identity
         //  and progresses.
 
+        //  Providing the correct identity element for the context of computation
+        //  is developer's responsibility. A wrong identity element leads to wrong
+        //  result.
+
         //  As the identity is provided, the result is assured to be
         //  of type T (ComplexNumber in this case).
 
