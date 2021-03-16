@@ -3,6 +3,9 @@ package in.athenaeum;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -15,35 +18,37 @@ public class Main {
                         new ComplexNumber(2, 2)
                 );
 
-        //  In this reducer variant, we provide an identity element
-        //  When there are no elements, operation short-circuits to
-        //  identity element provided.
-        //  For only one element in the stream, c1 will be identity
-        //  c2 will be the first element of the stream. Reducer runs only
-        //  once.
-        //  For 2 or more elements in stream, accumulator starts from identity
-        //  and progresses.
+        //  Collector is a state machine that builds a collection
+        //  such as List, Set, Map, etc from a stream
 
-        //  Providing the correct identity element for the context of computation
-        //  is developer's responsibility. A wrong identity element leads to wrong
-        //  result.
+        List<Double> realParts =
+                complexNumbers.stream()
+                        .map(ComplexNumber::getReal)
+                        .collect(Collectors.toList());
 
-        //  As the identity is provided, the result is assured to be
-        //  of type T (ComplexNumber in this case).
+        Set<Double> imaginaryParts =
+                complexNumbers.stream()
+                        .map(ComplexNumber::getImaginary)
+                        .collect(Collectors.toSet());
 
-        ComplexNumber result = complexNumbers.stream()
-                .reduce(
-                        new ComplexNumber(0, 0),
-                        (c1, c2) -> {
-                            System.out.println("Reducer runs with " + c1 + " and " + c2);
-                            return new ComplexNumber(
-                                    c1.getReal() + c2.getReal(),
-                                    c1.getImaginary() + c2.getImaginary()
-                            );
-                        }
-                );
+        //  Collecting to a comma-separated string
+        //  Works only with Stream<String>
+        String realPartsAsString =
+                complexNumbers.stream()
+                        .map(ComplexNumber::getReal)
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(","));
 
-        System.out.println(result);
+        //  Collecting to primitive array
+        double[] realPartsAsArrayFromDoubleStream =
+                complexNumbers.stream()
+                        .mapToDouble(ComplexNumber::getReal)    //  creates a double stream (primitive, efficient)
+                        .toArray();
+
+        //  Collecting to T[]
+        Double[] realPartsAsArrayFromNormalStream = complexNumbers.stream()
+                .map(ComplexNumber::getReal)    //  normal stream (autoboxing type)
+                .toArray(Double[]::new);
     }
 }
 
