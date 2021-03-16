@@ -29,10 +29,13 @@ public class Main {
         //  why Optional<T>?
         Optional<ComplexNumber> resultOptional = complexNumbers.stream()
                 .reduce(
-                        (c1, c2) -> new ComplexNumber(
-                                c1.getReal() + c2.getReal(),
-                                c1.getImaginary() + c2.getImaginary()
-                        )
+                        (c1, c2) -> {
+                            System.out.println("Reducer runs with " + c1 + " and " + c2);
+                            return new ComplexNumber(
+                                    c1.getReal() + c2.getReal(),
+                                    c1.getImaginary() + c2.getImaginary()
+                            );
+                        }
                 );
 
         System.out.println(resultOptional);
