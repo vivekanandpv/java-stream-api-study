@@ -62,8 +62,8 @@ class ComplexNumber {
     @Override
     public String toString() {
         return this.getReal() + " "
-                + (this.getImaginary() > 0 ? " + " + this.getImaginary() + "i" :
-                this.getImaginary() < 0 ? " - " + this.getImaginary() + "i" :
+                + (this.getImaginary() > 0 ? " +" + this.getImaginary() + "i" :
+                this.getImaginary() < 0 ? this.getImaginary() + "i" :
                         "");
     }
 }
